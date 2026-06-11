@@ -1,0 +1,10 @@
+Busque en el path de la URL http://localhost:8080/index.php?page=../../../../../../../etc/passwd esta url y 
+me salio una alerta con el flag.
+
+Fui probando subir directorios asi ../../ y llegue a etc/passwd que es un relative path conocido para guardar contraseñas
+
+Esta vulnerabilidad es conocida como Path Traversal.
+
+Aqui dejo un link a la explicacion oficial de OWASP:
+
+https://owasp.org/www-community/attacks/Path_Traversal

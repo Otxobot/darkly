@@ -1,4 +1,0 @@
-Busque en el path de la URL http://localhost:8080/index.php?page=../../../../../../../etc/passwd esta url y 
-me salio una alerta con el flag.
-
-Fui probando ../../ y luego etc/passwd es un relative path conocido para guardar contraseñas

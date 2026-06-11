@@ -1,0 +1,28 @@
+Esta vulnerabilidad se llama Unrestricted File Upload.
+
+Los archivos son un mayor peligro para las aplicaciones web. Uno de los primeros pasos en muchos ataques es intentar meter código al sistema mediante un archivo.
+
+Luego lo único que tiene que hacer el atacante es encontrar una manera de ejecutar ese script o código subido al servidor.
+
+En este caso, para conseguir el flag, he hecho lo siguiente:
+
+He probado a hacer una petición POST al path donde se suben archivos al servidor; el archivo tiene la extensión .php.
+
+Bash
+curl -X POST -F "Upload=Upload" -F "uploaded=@/home/abasante/Documents/file.php" "http://localhost:8080/index.php?page=upload"
+El servidor lo ha rechazado, ya que ha detectado que la extensión no es una extensión válida o permitida.
+
+Después he cambiado una cosa:
+
+Bash
+curl -X POST \
+-F "Upload=Upload" \
+-F "uploaded=@/home/abasante/Documents/file.php;type=image/jpeg" \
+"http://localhost:8080/index.php?page=upload"
+Le he añadido al final del path type=image/jpeg, esto ha engañado al servidor y ha dejado que se suba un archivo con extensión .php al servidor.
+
+Después esto ha devuelto una respuesta con un HTML que contenía el flag.
+
+Link a más información de OWASP:
+
+https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
