@@ -1,0 +1,9 @@
+En las cookies de la aplicacion en el cliente, habia una cookie llamada I_am_admin. 
+
+Y tenia una string asi -> 68934a3e9455fa72420237eb05902327.
+
+Esto es una string hasheada con md5, he deshecho el md5 del string y daba "false".
+
+Entonces para que el servidor identifique como true, he buscado el string en hexadecimal que equivale a true en md5 y lo he puesto en la cookie I_am_admin.
+
+Y esto me ha dado el flag.
