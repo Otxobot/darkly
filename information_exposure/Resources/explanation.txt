@@ -1,0 +1,8 @@
+Usando un script de python que de manera recursiva entra en la estructura del directorio .hidden, conseguimos sacar el flag.
+
+El directorio .hidden esta en la raiz del servidor, y debajo de el hay un monton de sub-directorios que incluyen archivos README aveces.
+
+Con el script de python entramos recursivamente en estos directorios hasta encontrar una (string usando regex) que sea parecido a un flag ya que los flag son strings
+hexadecimales.
+
+Link a vulnerabilidad en la pagina de owasp: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/01-Testing_Directory_Traversal_File_Include
