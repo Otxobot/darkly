@@ -22,3 +22,4 @@ Todos consiguen sacar un alert, lo que quiere decir que efectivamente estamos vu
 
 Pero alfinal lo unico que saca el flag es poner en uno de los dos inputs "script" a secas. 
 
+https://owasp.org/www-community/attacks/xss/

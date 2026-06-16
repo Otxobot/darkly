@@ -54,3 +54,5 @@ El servidor mete esta concatenacion en el attributo <object>:
 Pero esta vez con la string base64 que hemos metido en la query param
 
 Entonces cuando vuelve al browser se ejecuta el alert y nos dan el flag.
+
+https://owasp.org/www-community/attacks/xss/
