@@ -1,0 +1,56 @@
+Los ataques reflejados son aquellos en los que el script inyectado se refleja fuera del servidor web, 
+por ejemplo, en un mensaje de error, un resultado de búsqueda o cualquier otra respuesta que incluya parte o la totalidad de la información enviada al servidor como parte de la solicitud. 
+
+
+Los ataques reflejados llegan a las víctimas a través de otra vía, 
+como un correo electrónico o algún otro sitio web.
+
+Cuando un usuario es engañado para que haga clic en un enlace malicioso, envíe un formulario especialmente diseñado o simplemente navegue a un sitio malicioso, el código inyectado viaja al sitio web vulnerable, que refleja el ataque de vuelta al navegador del usuario. 
+
+El navegador ejecuta entonces el código porque proviene de un servidor "de confianza". El XSS reflejado también se conoce a veces como XSS no persistente o de tipo I (el ataque se lleva a cabo a través de un único ciclo de solicitud/respuesta).
+
+En el caso de Darkly, vemos que cuando clicamos una imagen en concreto nos lleva a esta url: http://localhost:8080/index.php?page=media&src=nsa
+
+Si inspecionamos el codigo html de esta pagina, vemos que la imagen viene de este fragmento:
+
+<table style="margin-top:-68px;">
+    <tr style="background-color:transparent;border:none;">
+            <td align=center style="vertical-align:middle;font-size:1.5em;">File: nsa_prism.jpg
+            </td>
+        </tr>
+    <tr style="background-color:transparent;border:none;">
+    <td style="vertical-align:middle;">
+        <object data="http://10.0.2.15/images/nsa_prism.jpg"></object>
+    </td>
+    </tr>
+</table>
+
+
+Luego mirando otra vez a la url, vemos que tiene dos parametros que van al servidor como query params ==>, page y src.
+
+En src vemos el valor nsa, y probamos meter un valor diferent a este parametro. 
+
+Aqui es donde inyectamos el codigo malicioso que va a recibir el servidor.
+
+Meteremos <script>alert(1)</script> pero encodeado en Base64, ya que muchos servidores filtran por palabras como <script> para evitar que se pueda
+aprovechar alguien de esta vulnerabilidad.
+
+Por esto, encodeamos el string <script>alert(1)</script> en Base64 y conseguimos esto ->PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+
+Ahora hacemos la peticion al servidor con la URL:
+
+http://localhost:8080/?page=media&src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+
+
+Lo que ocurre cuando pasamos esto en la query param src, es que en el backend se hace una operacion parecida a esta:
+
+$filename = $_GET['src'] . "_prism.jpg";
+
+Lo cual mete nuestro script directamente en la variable filename que va a "reflectar" el servidor al cliente.
+
+El servidor mete esta concatenacion en el attributo <object>: 
+
+    <object data="http://10.0.2.15/images/nsa_prism.jpg"></object>
+Pero esta vez con la string base64 que hemos metido en la query param
+
+Entonces cuando vuelve al browser se ejecuta el alert y nos dan el flag.

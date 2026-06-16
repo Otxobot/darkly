@@ -1,0 +1,24 @@
+La differencia entra reflected_xss y stored_xss, es que el stored_xss se guarda en la base de datos de la aplicacion.
+
+El reflected solo dura un ciclo de peticion y respuesta del servidor.
+
+En la seccion de la pagina donde se deja un feedback con un comentario y un usuario -> http://localhost:8080/index.php?page=feedback
+
+Abrimos el inspector y alargamos la clase de maxlength del input    
+
+<input name="txtName" type="text" size="30" maxlength="10"> ----> <input name="txtName" type="text" size="30" maxlength="4200">
+
+Y despues probamos meter diferentes scripts en los input de name y message, por ejemplo:
+
+<script>alert(1)</script>
+
+<img src=x onerror=alert(1)>
+
+E incluso:
+
+<scr<script>ipt>alert(1)</script>
+
+Todos consiguen sacar un alert, lo que quiere decir que efectivamente estamos vulnerando la aplicacion con un script.
+
+Pero alfinal lo unico que saca el flag es poner en uno de los dos inputs "script" a secas. 
+
